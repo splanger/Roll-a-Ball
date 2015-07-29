@@ -1,23 +1,29 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+    public float speed;
+    public Text countText;
+    public Text winText;
+
     // A reference to the game object's rigidbody component
     private Rigidbody rb;
-    public float speed;
+    private int count;
 
     // Called only once when the script is attached to an object
     //
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        count = 0;
+        SetCountText();
+        winText.text = "";
     }
 
 	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Update () {}
 
     // Called beforeperforming any physics calculations 
     // This is where our physics code will go
@@ -37,7 +43,19 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("Pick Up"))
         {
             other.gameObject.SetActive(false);
+            count++;
+            SetCountText();
         }
         //Destroy(other.gameObject);
+    }
+
+    void SetCountText()
+    {
+        countText.text = "Count: " + count.ToString();
+
+        if (count >= 12)
+        {
+            winText.text = "You win!";
+        }
     }
 }
